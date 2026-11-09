@@ -245,3 +245,43 @@ En el equipo del estudiante se verificaron: compilación de imágenes Docker, tr
 ### Antes del primer push
 
 Desde Windows CMD: `git status --short`, `git check-ignore .env datos/ventas_125052411.csv`, `git ls-files`. Nunca agregar `.env`, CSV, llaves privadas ni `docker-compose.respaldo.yml` al repositorio. Revisa también los archivos de evidencia para que no contengan credenciales.
+
+## Evidencias visuales de la implementación
+
+Las siguientes capturas se tomaron durante la configuración y entrega del proyecto el **9 de noviembre de 2026**. Complementan los registros de `evidencias/` y muestran la infraestructura utilizada; las capturas de código acreditan la configuración, no sustituyen las pruebas de ejecución.
+
+### Entorno Docker en Windows
+
+Se comprueba la disponibilidad de Docker Engine 29.9.2 desde Windows PowerShell, con Docker Desktop sobre WSL2.
+
+![Verificación del entorno Docker y versión del cliente](evidencias/capturas/01_docker_entorno.png)
+
+### Publicación del repositorio en GitHub
+
+La terminal muestra la transferencia completada de la rama `main` al repositorio `AxMrls/examen-p2-125052411`.
+
+![Git push exitoso al repositorio público](evidencias/capturas/02_git_push_exitoso.png)
+
+### Construcción del servicio FastAPI
+
+Dockerfile de la API: Python 3.12, dependencias, cliente OpenSSH y configuración de acceso al contenedor Hadoop.
+
+![Dockerfile del servicio FastAPI](evidencias/capturas/03_api_dockerfile.png)
+
+### Configuración de Docker Compose
+
+Configuración de PostgreSQL y Hadoop, montaje del dataset y del volumen de claves SSH.
+
+![Servicios PostgreSQL y Hadoop en Compose](evidencias/capturas/04_compose_db_hadoop.png)
+
+Configuración de FastAPI, red interna, puerto 8000 y volúmenes persistentes.
+
+![Servicio FastAPI, red y volúmenes en Compose](evidencias/capturas/05_compose_api_volumenes.png)
+
+### Servicios visibles en Docker Desktop
+
+Captura de los servicios `hadoop` y `api` en Docker Desktop durante la ejecución. La comprobación de los tres servicios y sus estados de salud se conserva además en `evidencias/contenedores-activos.txt`.
+
+![Servicios Hadoop y API en Docker Desktop](evidencias/capturas/06_docker_desktop.png)
+
+> **Nota:** Las evidencias de conexión SSH, procesamiento MapReduce, tiempos, endpoints y persistencia se encuentran también en los archivos `.txt`, `.log` y `.json` de `evidencias/`.
