@@ -1,0 +1,24 @@
+.env
+*.csv
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+resultados/
+*.log
+!evidencias/.gitkeep
+!evidencias/*.log
+
+# Seguridad y respaldos locales
+*.pem
+*.key
+id_ed25519
+id_rsa
+**/id_ed25519
+**/id_rsa
+**/.ssh/
+ssh_keys/
+docker-compose.respaldo.yml
+.env.*
+!.env.example
+*.zip

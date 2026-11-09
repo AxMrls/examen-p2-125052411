@@ -1,0 +1,69 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-datamart}
+      POSTGRES_USER: ${POSTGRES_USER:-datamart}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Configura POSTGRES_PASSWORD en .env}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks: [datamart_net]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  hadoop:
+    build:
+      context: .
+      dockerfile: hadoop/Dockerfile
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-datamart}
+      POSTGRES_USER: ${POSTGRES_USER:-datamart}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Configura POSTGRES_PASSWORD en .env}
+      POSTGRES_HOST: db
+      MATRICULA: "125052411"
+    volumes:
+      - ./datos:/data/input:ro
+      - hadoop_output:/data/output
+      - ssh_keys:/shared-ssh
+      - ./evidencias:/evidencias
+    networks: [datamart_net]
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep -x sshd >/dev/null"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-datamart}
+      POSTGRES_USER: ${POSTGRES_USER:-datamart}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Configura POSTGRES_PASSWORD en .env}
+      POSTGRES_HOST: db
+    volumes:
+      - ssh_keys:/shared-ssh:ro
+    ports:
+      - "${API_PORT:-8000}:8000"
+    networks: [datamart_net]
+    depends_on:
+      db:
+        condition: service_healthy
+      hadoop:
+        condition: service_healthy
+
+networks:
+  datamart_net:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  hadoop_output:
+  ssh_keys:

@@ -1,0 +1,4 @@
+NAME                           IMAGE                        COMMAND                  SERVICE   CREATED         STATUS                   PORTS
+examen-p2-125052411-api-1      examen-p2-125052411-api      "uvicorn app:app --h…"   api       2 minutes ago   Up 2 minutes             0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp
+examen-p2-125052411-db-1       postgres:16-alpine           "docker-entrypoint.s…"   db        2 minutes ago   Up 2 minutes (healthy)   5432/tcp
+examen-p2-125052411-hadoop-1   examen-p2-125052411-hadoop   "/usr/bin/tini -- /e…"   hadoop    2 minutes ago   Up 2 minutes (healthy)   22/tcp
