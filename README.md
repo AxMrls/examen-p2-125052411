@@ -1,6 +1,6 @@
 # Examen Segundo Parcial — Pipeline de datos contenerizado
 
-**Alumno:** Ian Azael Hernández Silva
+**Alumno:** Axel Isaac Sanchez Morales
 **Matrícula:** `125052411`
 **Materia:** Manejo Masivo de Datos (Big Data)
 **Profesor:** Javier Moya
